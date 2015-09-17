@@ -1,0 +1,102 @@
+This is the final project submission for Derek Shultz and Mingjun Zhao from 
+Section EB1. 
+
+This project is a computer version of the popular board game Othello
+(sometimes called Reversi). In this game, there are two players who take
+turns placing pieces of their colour on the board. When a player places
+a piece, it must enclose some of the opponent's pieces between the placed
+piece and another of the placing player's pieces. The opponent's pieces
+that are enclosed between the player's pieces are then flipped over so
+the player's colour. The game is over either when the board is filled up
+or neither player can make a move. The winner is the player with the most
+pieces of their colour face up on the board. 
+
+To run this project, you must have pygame installed. (Install as per the
+instructions here: http://www.pygame.org/wiki/CompileUbuntu) Once you 
+have pygame installed, go to the directory where you stored the files and 
+type in the following line (after the three '>'s):
+>>> python3 main.py
+
+A window will then be generated that contains instructions for the game and
+the words "PLAYER vs COMPUTER" and "PLAYER vs PLAYER". These are buttons.
+
+If PLAYER vs PLAYER is clicked, an Othello board is displayed where real 
+players can take turns playing moves against each other, with white starting
+first, until one wins. 
+
+If PLAYER vs COMPUTER is pressed, the player is brought to a screen with the 
+words "EASY", "NORMAL", and "HARD". These are buttons that determine the 
+difficulty of the automatic opponent. The user is white and goes first and 
+the computer is black and makes moves in response to the user's moves to 
+try to win (using a greedy search for easy and minimax for normal and 
+hard, explained later). This happens until one wins.
+
+When a player wins in either of these modes, a box appears that says who 
+won and a box appears below it that says MAIN MENU that, when clicked,
+brings the user back to the menu originally displayed that has the instructions
+and the two buttons. 
+
+To exit the game, either click the X in the top left of the menu or type the
+letter q.
+
+There are only three files, organized as follows:
+
+main.py: Contains the function that runs game and gameplay modes. 
+         Also has functions that have to do with checking if the game is 
+         over, who won, and providing a way back to the main menu.
+
+draw.py: Contains all functions that draw anything. This includes the board,
+         text, pieces, background, etc. Also has functions to set the default
+         beginning board for the start of the game and another initial setup
+         used for testing. Then there's some to convert between board 
+         coordinates and screen coordinates and vice versa. Finally,
+         there's functions that draw and run the main menu and difficulty
+         select screens.
+
+move.py: Contains all functions the computer needs to decide where it wants
+         to make a move as well as functions that decide what happens
+         when either player makes a move, such as what pieces to flip and 
+         how to update the board. When the computer is on the easy difficulty,
+         it just uses the greedy_get_move function that just goes through
+         every move it could make and selects the one that gives it the
+         highest score. When a higher difficulty is selected, the computer
+         uses a minimax function to look a certain number of moves into the
+         future and makes the move that will give it the highest score after
+         this predetermined number of flips, assuming the user will always
+         make the move that gives the user the best score. This isn't a 
+         perfect AI, but hard mode can be difficult to beat.
+
+Looking through the files, there are two sections commented out that we 
+used for testing. The first is line 34 of main.py. This one calls a function
+called test_reset, which can be used to show the difference between the
+greedy and minimax functions. If a white piece is placed on a certain part
+of this test board, the greedy function will choose the place that gives 
+it the best score, but causes it to lose on the very next turn, while 
+the minimax sees that it will lose on the white's next move, so chooses
+a different place to place it's piece.
+
+The second commented out section is from line 146 to 197 of main. This section
+pits the computer against another computer with the ability to look more moves
+into the future than it's opponent. Since the one that can look more moves 
+into the future goes first, it wins because it's the better minimax. This is
+not by any means an exhaustive proof that a minimax that can see farther into
+the future will beat another minimax, but we wanted to see if it would work.
+
+The reason we chose to make the difficulties look the number of moves into
+the future that we did was because we wanted one way for the player to play
+against the greedy function. The medium and difficult numbers were chosen 
+after extensive testing showing that these were the hardest numbers of 
+moves into the future that we could play against before the program slowed 
+down. The problem is that the program actually gets easier to play against
+when the future moves it checks is greater than about 4 because it makes
+too many assumptions on how the user is going to play when it is unlikely 
+that the user will actually make the moves that would make it's move very
+good. This causes it to make moves that aren't necessarily the best for it
+to win. Plus, after it looks 6 or more moves into the future, it takes 
+a longer amount of time to compute the computer's move. After 6, it's
+too slow to be convenient to play against. This is understandable because 
+at 6 or higher moves into the future, it has to check a lot of possible moves.
+(the running time is something like O(number of valid moves ^ (moves into the
+future it checks)) 
+
+That's our project, we hope you like it!
